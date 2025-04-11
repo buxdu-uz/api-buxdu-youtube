@@ -2,43 +2,67 @@
 
 namespace App\Http\Controllers\Hemis;
 
+use App\Domain\Departments\Repositories\DepartmentRepository;
+use App\Domain\Departments\Resources\DepartmentResource;
+use App\Domain\Faculties\Resources\FacultyResource;
+use App\Domain\Subjects\Resources\SubjectResource;
+use App\Domain\Faculties\Repositories\FacultyRepository;
+use App\Domain\Subjects\Repositories\SubjectRepository;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FacultyResource;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class HemisController extends Controller
 {
     /**
-     * @var mixed|Client
+     * @var mixed|FacultyRepository
      */
-    public mixed $clients;
+    public mixed $faculties;
 
     /**
-     * @var mixed|string[]
+     * @var mixed|DepartmentRepository
      */
-    public mixed $headers;
+    public mixed $departments;
 
-    public function __construct()
+    /**
+     * @var mixed|SubjectRepository
+     */
+    public mixed $subjects;
+
+    /**
+     * @param FacultyRepository $facultyRepository
+     * @param DepartmentRepository $departmentRepository
+     * @param SubjectRepository $subjectRepository
+     */
+    public function __construct(FacultyRepository $facultyRepository, DepartmentRepository $departmentRepository, SubjectRepository $subjectRepository)
     {
-        $this->clients = new Client();
-        $this->headers = [
-            'Authorization' => 'Bearer ' . config('hemis.api_key'),
-            'Accept' => 'application/json',
-        ];
+        $this->faculties = $facultyRepository;
+        $this->departments = $departmentRepository;
+        $this->subjects = $subjectRepository;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getAllFaculties()
     {
-        $request = new \GuzzleHttp\Psr7\Request(
-            'GET',
-            config('hemis.host') . 'data/department-list?_structure_type=11&limit=' . config('hemis.limit'),
-            $this->headers
-        );
+        return $this->successResponse('',FacultyResource::collection($this->faculties->getAllFaculties()));
+    }
 
-        $response = $this->clients->sendAsync($request)->wait()->getBody();
-        $result = json_decode($response)->data->items;
+    /**
+     * @param $facultyId
+     * @return JsonResponse
+     */
+    public function getAllDepartments($facultyId)
+    {
+        return $this->successResponse('',DepartmentResource::collection($this->departments->getAllDepartments($facultyId)));
+    }
 
-        return FacultyResource::collection($result);
+    /**
+     * @return JsonResponse
+     */
+    public function getAllSubjects()
+    {
+        return $this->successResponse('',SubjectResource::collection($this->subjects->getAllSubjects()));
     }
 }

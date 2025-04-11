@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Faculties\Models\Faculty;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,13 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('login')->unique();
-            $table->string('full_name');
-            $table->string('short_name');
-            $table->unsignedBigInteger('employee_id_number')->unique();
-            $table->string('password');
+            $table->foreignIdFor(Faculty::class)
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->string('name');
+            $table->string('code');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('departments');
     }
 };
