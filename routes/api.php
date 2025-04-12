@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Hemis\HemisController;
 use App\Http\Controllers\Lessons\LessonController;
+use App\Http\Controllers\PDF\FileController;
 use App\Http\Controllers\Teachers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,11 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('departments/{faculty_id}',[HemisController::class,'getAllDepartments']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
         Route::post('lessons',[LessonController::class,'store']);
+
+
+
+        //GENERATE PDF
+        Route::post('generate',[FileController::class,'generatePDF']);
     });
 
     Route::group(['prefix' => 'teacher','middleware' => ['role:teacher']],function () {
@@ -37,3 +43,9 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
     });
 });
+
+
+
+//oAuth2
+Route::get('/auth/hemis', [HemisController::class, 'redirectToProvider']);
+Route::get('/callback', [HemisController::class, 'handleCallback']);
