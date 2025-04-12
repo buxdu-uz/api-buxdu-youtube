@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Hemis\HemisController;
 use App\Http\Controllers\Lessons\LessonController;
+use App\Http\Controllers\Teachers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
     Route::group(['prefix' => 'admin','middleware' => ['role:admin']],function () {
         Route::get('faculties',[HemisController::class,'getAllFaculties']);
+        Route::get('teachers/{department_id}',[TeacherController::class,'getAllTeacher']);
         Route::get('departments/{faculty_id}',[HemisController::class,'getAllDepartments']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
         Route::post('lessons',[LessonController::class,'store']);
