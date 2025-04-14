@@ -60,6 +60,7 @@ class FileController extends Controller
 // Save PDF to storage
         Storage::put($pdfPath, $pdf->output());
         // Stream it in browser
-        return $pdf->stream($teacher->full_name.'.pdf');
+//        return $pdf->stream($teacher->full_name.'.pdf');
+        return $this->successResponse('Generated successfully.',$pdfUrl);
     }
 }
