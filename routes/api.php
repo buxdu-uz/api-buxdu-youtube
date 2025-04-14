@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login',[LoginController::class,'login']);
 
-Route::group(['middleware' => ['auth:sanctum']],function (){
+Route::group(['middleware' => ['auth:web']],function (){
     Route::post('logout',[LoginController::class,'logout']);
     Route::get('lessons',[LessonController::class,'index']);
 
@@ -46,6 +46,6 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 
 
 
-//oAuth2
-Route::get('/auth/hemis', [HemisController::class, 'redirectToProvider']);
-Route::get('/callback', [HemisController::class, 'handleCallback']);
+////oAuth2
+//Route::get('/auth/hemis', [HemisController::class, 'redirectToProvider']);
+//Route::get('/callback', [HemisController::class, 'handleCallback']);
