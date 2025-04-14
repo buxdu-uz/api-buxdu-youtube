@@ -108,6 +108,7 @@ class HemisController extends Controller
         try {
             $accessToken = $provider->getAccessToken('authorization_code', [
                 'code' => $request->get('code')
+
             ]);
 
             $resourceOwner = $provider->getResourceOwner($accessToken);
@@ -120,6 +121,8 @@ class HemisController extends Controller
                 'expired' => $accessToken->hasExpired(),
                 'user' => $user
             ]);
+
+//            return redirect('urlfron/?state'.$request->state)
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
