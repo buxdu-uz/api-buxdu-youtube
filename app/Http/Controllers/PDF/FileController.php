@@ -16,9 +16,12 @@ class FileController extends Controller
     public function generatePDF(Request $request)
     {
         $request->validate([
+            'teacher_id' => 'required|exists:users,id',
             'data' => 'required|array',
             'data.*.lesson_id' => 'required|exists:lessons,id'
         ]);
+
+        $teacher = User::query()->find($request->teacher_id);
 
         $lessons = array();
         foreach ($request->data as $data)
@@ -27,27 +30,36 @@ class FileController extends Controller
                 ->find($data['lesson_id']);
 
             $lessons[] = [
-                'teacher' => $lesson->teacher->full_name,
                 'subject' => $lesson->subject->name,
                 'title' => $lesson->title,
+                'url' => $lesson->url,
                 'created_at' => $lesson->created_at,
             ];
         }
 
-        $filename = 'documents/' . Str::uuid() . '.pdf';
-        $pdfUrl = asset('storage/' . $filename); // Generate URL
+        $filename = 'documents/files/pdf/' . Str::uuid() . '.pdf';
+        $pdfPath = 'public/' . $filename;
+        $pdfUrl = asset('storage/' . $filename);
 
-        // Step 3: Generate QR Code with the URL (as base64 image)
-        $qrCode = QrCode::size(100)->generate($pdfUrl);
-        $qrCodeImage = 'data:image/png;base64,' . base64_encode($qrCode);
+// Save QR code as PNG to storage
+        $qrCodePng = QrCode::size(200)->generate($pdfUrl);
+        $qrCodePath = 'public/documents/files/qrcodes/' . Str::uuid() . '.png';
+        Storage::put($qrCodePath, $qrCodePng);
 
+// Generate base64 version for embedding into PDF
+        $qrCodeBase64 = 'data:image/png;base64,' . base64_encode($qrCodePng);
 
-        // Render a Blade view as PDF
+// Create the PDF using Blade view
         $pdf = PDF::loadView('pdf', [
             'data' => $lessons,
-            'qrcode' => $qrCodeImage
+            'qrcode' => $qrCodeBase64,
+            'teacher' => $teacher,
+            'pdfURL' => $pdfUrl
         ]);
+
+// Save PDF to storage
+        Storage::put($pdfPath, $pdf->output());
         // Stream it in browser
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream($teacher->full_name.'.pdf');
     }
 }
