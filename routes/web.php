@@ -19,5 +19,6 @@ Route::get('/', function () {
 });
 
 //oAuth2
-Route::get('/auth/hemis', [HemisController::class, 'redirectToProvider']);
+Route::get('/auth/hemis', [HemisController::class, 'redirectToProvider'])->middleware('cors');
 Route::get('/callback', [HemisController::class, 'handleCallback']);
+

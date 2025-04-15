@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[LoginController::class,'login']);
+Route::post('login/hemis',[HemisController::class,'checkHemisAuth'])->middleware('cors');
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('logout',[LoginController::class,'logout']);
