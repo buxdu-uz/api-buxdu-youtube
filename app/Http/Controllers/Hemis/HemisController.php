@@ -9,6 +9,7 @@ use App\Domain\Subjects\Resources\SubjectResource;
 use App\Domain\Faculties\Repositories\FacultyRepository;
 use App\Domain\Subjects\Repositories\SubjectRepository;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\SessionState;
 use App\Models\User;
 use Exception;
@@ -161,10 +162,12 @@ class HemisController extends Controller
                     Session::regenerate();
 
                     return response()->json([
+                        'status' => true,
                         'message' => 'Login successful',
-                        'user' => $authUser,
+                        'user' => new UserResource($authUser),
                         'token' => $authUser->createToken('API Token')->plainTextToken, // if using Sanctum
                     ]);
+
                 }
             }
         }
