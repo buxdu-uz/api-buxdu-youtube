@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//MAIN
+Route::get('lessons/{faculty_id}',[LessonController::class,'groupByLesson']);
+
 Route::post('login',[LoginController::class,'login']);
 Route::post('login/hemis',[HemisController::class,'checkHemisAuth'])->middleware('cors');
 
