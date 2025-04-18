@@ -19,10 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 //MAIN
-Route::get('lessons/{faculty_id}',[LessonController::class,'groupByLesson']);
+Route::get('lesson',[LessonController::class,'groupByLesson']);
+Route::get('lesson/{lesson}/show',[LessonController::class,'show']);
 
 Route::post('login',[LoginController::class,'login']);
 Route::post('login/hemis',[HemisController::class,'checkHemisAuth'])->middleware('cors');
+
+
+Route::get('faculties',[HemisController::class,'getAllFaculties']);
+Route::get('departments/{faculty_id}',[HemisController::class,'getAllDepartments']);
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::post('logout',[LoginController::class,'logout']);
@@ -30,9 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
 //GENERATE PDF
     Route::post('generate',[FileController::class,'generatePDF']);
     Route::group(['prefix' => 'admin','middleware' => ['role:admin']],function () {
-        Route::get('faculties',[HemisController::class,'getAllFaculties']);
         Route::get('teachers/{department_id}',[TeacherController::class,'getAllTeacher']);
-        Route::get('departments/{faculty_id}',[HemisController::class,'getAllDepartments']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
         Route::post('lessons',[LessonController::class,'store']);
     });

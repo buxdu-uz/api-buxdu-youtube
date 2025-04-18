@@ -23,4 +23,15 @@ class LessonRepository
             ->orderByDesc('created_at')
             ->paginate($pagination);
     }
+
+    /**
+     * @param $filter
+     * @return mixed
+     */
+    public function mainLessons($filter): mixed
+    {
+        return Lesson::query()
+            ->Filter($filter)
+            ->orderByDesc('created_at');
+    }
 }

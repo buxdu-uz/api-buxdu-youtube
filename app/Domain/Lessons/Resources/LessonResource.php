@@ -3,6 +3,8 @@
 namespace App\Domain\Lessons\Resources;
 
 use App\Domain\Subjects\Resources\SubjectResource;
+use App\Domain\Teachers\Resources\TeacherResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JetBrains\PhpStorm\ArrayShape;
@@ -21,7 +23,7 @@ class LessonResource extends JsonResource
             'title' => $this->title,
             'url' => $this->url,
             'created_at' => $this->created_at,
-            'teacher' => $this->teacher,
+            'teacher' => new TeacherResource($this->teacher),
             'subject' => new SubjectResource($this->subject),
         ];
     }
