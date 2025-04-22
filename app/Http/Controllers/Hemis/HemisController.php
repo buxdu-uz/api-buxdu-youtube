@@ -131,7 +131,7 @@ class HemisController extends Controller
                 'state' => $request->get('state'),
                 'employee_id_number' => $user['employee_id_number']
             ]);
-            return redirect()->away("http://192.168.12.6:3000/auth/hemis?state=".$request->get('state'));
+            return redirect()->away("https://buxdu.uz/videodars/auth/hemis?state=".$request->get('state'));
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
