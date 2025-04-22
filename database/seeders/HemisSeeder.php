@@ -80,6 +80,7 @@ class HemisSeeder extends Seeder
         ]);
 
         $teacher = User::updateOrCreate([
+            'id' => 2,
             'employee_id_number' => 3042311060,
         ],[
             'login' => 3042311060,
