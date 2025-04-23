@@ -79,25 +79,25 @@ class HemisSeeder extends Seeder
             'password' => 'adminatm2025',
         ]);
 
-        $teacher = User::updateOrCreate([
-            'id' => 2,
-            'employee_id_number' => 3042311060,
-        ],[
-            'login' => 3042311060,
-            'full_name' => 'SALIMOV BEHRUZBEK SOBIROVICH',
-            'short_name' => 'SALIMOV B.S',
-            'password' => 3042311060
-        ]);
+//        $teacher = User::updateOrCreate([
+//            'id' => 2,
+//            'employee_id_number' => 3042311060,
+//        ],[
+//            'login' => 3042311060,
+//            'full_name' => 'SALIMOV BEHRUZBEK SOBIROVICH',
+//            'short_name' => 'SALIMOV B.S',
+//            'password' => 3042311060
+//        ]);
 
         UserProfile::updateOrCreate([
             'user_id' => $user->id,
         ]);
-        UserProfile::updateOrCreate([
-            'user_id' => $teacher->id,
-        ]);
+//        UserProfile::updateOrCreate([
+//            'user_id' => $teacher->id,
+//        ]);
 
         $user->assignRole($roleAdmin->name);
-        $teacher->assignRole('teacher');
+//        $teacher->assignRole('teacher');
     }
 
     /**
