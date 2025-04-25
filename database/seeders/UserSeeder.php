@@ -15,12 +15,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $teacher = User::updateOrCreate([
-            'employee_id_number' => 3042311060,
+            'employee_id_number' => '3042311060',
         ],[
-            'login' => 3042311060,
+            'login' => '3042311060',
             'full_name' => 'SALIMOV BEHRUZBEK SOBIROVICH',
             'short_name' => 'SALIMOV B.S',
-            'password' => 3042311060
+            'password' => '3042311060'
         ]);
         UserProfile::updateOrCreate([
             'user_id' => $teacher->id,
