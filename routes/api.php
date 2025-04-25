@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('teachers/{department_id}',[TeacherController::class,'getAllTeacher']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
         Route::post('lessons',[LessonController::class,'store']);
+        Route::put('lessons/{lesson}/update',[LessonController::class,'update']);
+        Route::delete('lessons/{lesson}/delete',[LessonController::class,'destroy']);
     });
 
     Route::group(['prefix' => 'teacher','middleware' => ['role:teacher']],function () {

@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Lessons;
 
 use App\Domain\Lessons\Actions\StoreLessonAction;
+use App\Domain\Lessons\Actions\UpdateLessonAction;
 use App\Domain\Lessons\DTO\StoreLessonDTO;
+use App\Domain\Lessons\DTO\UpdateLessonDTO;
 use App\Domain\Lessons\Models\Lesson;
 use App\Domain\Lessons\Repositories\LessonRepository;
 use App\Domain\Lessons\Requests\LessonFilterRequest;
 use App\Domain\Lessons\Requests\StoreLessonRequest;
+use App\Domain\Lessons\Requests\UpdateLessonRequest;
 use App\Domain\Lessons\Resources\LessonResource;
 use App\Filters\LessonFilter;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class LessonController extends Controller
@@ -31,11 +35,19 @@ class LessonController extends Controller
         $this->lessons = $lessonRepository;
     }
 
+    /**
+     * @return AnonymousResourceCollection
+     */
     public function index()
     {
         return LessonResource::collection($this->lessons->paginate(\request()->query('pagination', 20)));
     }
 
+    /**
+     * @param StoreLessonRequest $request
+     * @param StoreLessonAction $action
+     * @return JsonResponse
+     */
     public function store(StoreLessonRequest $request, StoreLessonAction $action)
     {
         try {
@@ -48,15 +60,47 @@ class LessonController extends Controller
         }
     }
 
+    /**
+     * @param UpdateLessonRequest $request
+     * @param Lesson $lesson
+     * @param UpdateLessonAction $action
+     * @return JsonResponse
+     */
+    public function update(UpdateLessonRequest $request, Lesson $lesson, UpdateLessonAction $action)
+    {
+        try {
+            $dto = UpdateLessonDTO::fromArray(array_merge($request->validated(), ['lesson' => $lesson]));
+            $response = $action->execute($dto);
+
+            return $this->successResponse('Lesson updated.', new LessonResource($response));
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param Lesson $lesson
+     * @return JsonResponse
+     */
+    public function destroy(Lesson $lesson)
+    {
+        try {
+            $lesson->delete();
+            return $this->successResponse('Lesson deleted.');
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage());
+        }
+    }
+
 
 //    MAIN
     public function groupByLesson(LessonFilterRequest $request)
     {
-        $filter = app()->make(LessonFilter::class,['queryParams' => array_filter($request->validated())]);
+        $filter = app()->make(LessonFilter::class, ['queryParams' => array_filter($request->validated())]);
         $query = $this->lessons->mainLessons($filter);
 
         $totalCount = $query->count();
-        $lessons = $query->paginate(\request()->query('pagination',20));
+        $lessons = $query->paginate(\request()->query('pagination', 20));
 
 
         return LessonResource::collection($lessons)->additional([
@@ -71,13 +115,13 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson)
     {
-        return $this->successResponse('',new LessonResource($lesson));
+        return $this->successResponse('', new LessonResource($lesson));
     }
 
 
 //    STATISTIKA
 
-  //1 chi yol
+    //1 chi yol
 //    public function statistics(Request $request)
 //    {
 //        $query = Lesson::query()->with('teacher.profile.department.faculty');
