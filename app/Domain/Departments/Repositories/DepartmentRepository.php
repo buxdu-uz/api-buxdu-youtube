@@ -13,9 +13,20 @@ class DepartmentRepository
      */
     public function getAllDepartments($faculty_id): Collection|array
     {
-        return Department::query()
+        return Department::with('user_profile.user.lessons')
             ->where('faculty_id', $faculty_id)
             ->get()
-            ->sortBy('name');
+            ->map(function ($department) {
+                $lessonCount = $department->user_profile
+                    ->flatMap(function ($profile) {
+                        return optional($profile->user)->lessons ?? collect();
+                    })
+                    ->count();
+
+                $department->lesson_count = $lessonCount;
+
+                return $department;
+            })
+            ->sortBy('name');;
     }
 }

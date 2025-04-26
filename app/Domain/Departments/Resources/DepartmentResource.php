@@ -18,6 +18,7 @@ class DepartmentResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
+            'lesson_count' => $this->lesson_count,
         ];
     }
 }
