@@ -27,6 +27,7 @@ class UpdateLessonRequest extends FormRequest
             'subject_id' => 'required|exists:subjects,id',
             'title' => 'required|string|max:255',
             'url' => 'required|url',
+            'date' => 'required|date',
             'lesson' => 'sometimes|json'
         ];
     }

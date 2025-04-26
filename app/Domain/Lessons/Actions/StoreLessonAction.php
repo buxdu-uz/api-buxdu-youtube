@@ -26,6 +26,7 @@ class StoreLessonAction
                 $lesson->subject_id = $lessonData['subject_id'];
                 $lesson->title = $lessonData['title'];
                 $lesson->url = $lessonData['url'];
+                $lesson->date = $lessonData['date'];
                 $lesson->save();
                 $data[] = $lesson;
             }

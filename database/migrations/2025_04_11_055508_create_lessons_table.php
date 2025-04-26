@@ -27,6 +27,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->text('title');
             $table->string('url');
+            $table->timestamp('date');
             $table->timestamps();
 
             $table->foreign('teacher_id')

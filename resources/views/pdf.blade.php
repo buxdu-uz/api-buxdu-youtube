@@ -142,7 +142,7 @@
 <body>
 <div class="header">
     <div class="title">MA'LUMOTNOMA No._______</div>
-    <div class="date-line">"_____" ____________ {{ date('Y') }} - yil</div>
+    <div class="date-line"><b>{{ date('Y-m-d H:i:s') }}</b></div>
 </div>
 <div class="main-text">
     Buxoro Davlat Universiteti <b>{{ $teacher->profile->department->faculty->name }}</b> fakulteti <b>{{ $teacher->profile->department->name }}</b> dotsenti <b>{{ $teacher->full_name }}</b> tomonidan o'quv yuklamasida nazarda tutilganidan tashqari
@@ -158,9 +158,9 @@
     </tr>
     @foreach($data as $lesson)
         <tr>
-            <td class="topic-title">{{ $lesson['subject'] }}</td>
+            <td class="topic-title">{{ $lesson['title'] }}</td>
             <td><a href="https://youtu.be/ntO-9OXKSZw" class="reference-link">{{ $lesson['url'] }}</a></td>
-            <td class="reference-date">{{ $lesson['created_at']->format('Y-m-d H:i:s') }}</td>
+            <td class="reference-date">{{ $lesson['date'] }}</td>
         </tr>
     @endforeach
 </table>
@@ -178,8 +178,8 @@
     </table>
 </div>
 
-<div class="bottom-link">
-    <a href="{{ $pdfURL }}" class="reference-link">Yuklab olish</a>
-</div>
+{{--<div class="bottom-link">--}}
+{{--    <a href="{{ $pdfURL }}" class="reference-link">Yuklab olish</a>--}}
+{{--</div>--}}
 </body>
 </html>

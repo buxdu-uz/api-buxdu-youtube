@@ -18,6 +18,7 @@ class Lesson extends Model
         'subject_id',
         'title',
         'url',
+        'date',
     ];
 
     public function user()

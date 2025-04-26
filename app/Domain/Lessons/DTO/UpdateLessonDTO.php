@@ -27,6 +27,11 @@ class UpdateLessonDTO
     private string $url;
 
     /**
+     * @var string
+     */
+    private string $date;
+
+    /**
      * @var Lesson
      */
     private Lesson $lesson;
@@ -42,6 +47,7 @@ class UpdateLessonDTO
         $dto->setSubjectId($data['subject_id']);
         $dto->setTitle($data['title']);
         $dto->setUrl($data['url']);
+        $dto->setDate($data['date']);
         $dto->setLesson($data['lesson']);
 
         return $dto;
@@ -109,6 +115,22 @@ class UpdateLessonDTO
     public function setUrl(string $url): void
     {
         $this->url = $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $date
+     */
+    public function setDate(string $date): void
+    {
+        $this->date = $date;
     }
 
     /**

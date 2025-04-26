@@ -24,6 +24,7 @@ class UpdateLessonAction
             $lesson->subject_id = $dto->getSubjectId();
             $lesson->title = $dto->getTitle();
             $lesson->url = $dto->getUrl();
+            $lesson->date = $dto->getDate();
             $lesson->update();
         } catch (Exception $exception) {
             DB::rollBack();

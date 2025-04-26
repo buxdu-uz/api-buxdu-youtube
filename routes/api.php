@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
     Route::get('lessons',[LessonController::class,'index']);
 //GENERATE PDF
     Route::post('generate',[FileController::class,'generatePDF']);
+
     Route::group(['prefix' => 'admin','middleware' => ['role:admin']],function () {
         Route::get('teachers/{department_id}',[TeacherController::class,'getAllTeacher']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);

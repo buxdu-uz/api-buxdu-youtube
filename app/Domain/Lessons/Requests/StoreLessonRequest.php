@@ -27,7 +27,8 @@ class StoreLessonRequest extends FormRequest
             'data.*.teacher_id' => 'required|exists:users,id',
             'data.*.subject_id' => 'required|exists:subjects,id',
             'data.*.title' => 'required|string|max:255',
-            'data.*.url' => 'required|url'
+            'data.*.url' => 'required|url',
+            'data.*.date' => 'required|date'
         ];
     }
 }

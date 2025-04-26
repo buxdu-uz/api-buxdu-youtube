@@ -30,9 +30,10 @@ class FileController extends Controller
                 ->find($data['lesson_id']);
 
             $lessons[] = [
-                'subject' => $lesson->subject->name,
+//                'subject' => $lesson->subject->name,
                 'title' => $lesson->title,
                 'url' => $lesson->url,
+                'date' => $lesson->date,
                 'created_at' => $lesson->created_at,
             ];
         }

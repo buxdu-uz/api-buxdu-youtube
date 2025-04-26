@@ -16,12 +16,13 @@ class LessonResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['id' => "mixed", 'title' => "mixed", 'url' => "mixed", 'created_at' => "mixed", 'teacher' => "mixed", 'subject' => "\App\Domain\Subjects\Resources\SubjectResource"])] public function toArray(Request $request): array
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'title' => $this->title,
             'url' => $this->url,
+            'date' => $this->date,
             'created_at' => $this->created_at,
             'teacher' => new TeacherResource($this->teacher),
             'subject' => new SubjectResource($this->subject),
