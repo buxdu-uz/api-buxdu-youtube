@@ -20,6 +20,7 @@ class LessonResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'subject_name' => $this->subject_name,
             'title' => $this->title,
             'url' => $this->url,
             'date' => $this->date,

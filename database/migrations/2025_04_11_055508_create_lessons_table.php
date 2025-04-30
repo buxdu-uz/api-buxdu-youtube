@@ -22,9 +22,11 @@ return new class extends Migration
             $table->unsignedBigInteger('teacher_id')
                 ->index();
             $table->foreignIdFor(Subject::class)
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->text('subject_name')->nullable();
             $table->text('title');
             $table->string('url');
             $table->timestamp('date');

@@ -16,6 +16,7 @@ class Lesson extends Model
         'user_id',
         'teacher_id',
         'subject_id',
+        'subject_name',
         'title',
         'url',
         'date',
