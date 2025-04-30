@@ -14,11 +14,13 @@ use App\Domain\Lessons\Requests\UpdateLessonRequest;
 use App\Domain\Lessons\Resources\LessonResource;
 use App\Filters\LessonFilter;
 use App\Http\Controllers\Controller;
+use App\Imports\LessonImport;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LessonController extends Controller
 {
@@ -234,5 +236,23 @@ class LessonController extends Controller
                 'count' => $group->count(),
             ];
         };
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:10240' // Up to 10MB
+        ]);
+
+        try {
+            Excel::import(new LessonImport(), $request->file('file'));
+            return $this->successResponse('Darslar muvaffaqiyatli import qilindi!');
+        } catch (Exception $e) {
+            return $this->errorResponse('Import paytida xato', $e->getMessage());
+        }
     }
 }

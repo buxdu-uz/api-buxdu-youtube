@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::post('lessons',[LessonController::class,'store']);
         Route::put('lessons/{lesson}/update',[LessonController::class,'update']);
         Route::delete('lessons/{lesson}/delete',[LessonController::class,'destroy']);
+
+        Route::post('lessons/import',[LessonController::class,'import']);
     });
 
     Route::group(['prefix' => 'teacher','middleware' => ['role:teacher']],function () {
