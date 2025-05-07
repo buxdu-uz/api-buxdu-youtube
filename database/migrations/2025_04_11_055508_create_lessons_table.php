@@ -27,7 +27,7 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->text('subject_name')->nullable();
-            $table->text('title');
+            $table->text('title')->nullable();
             $table->string('url');
             $table->timestamp('date');
             $table->timestamps();
