@@ -28,6 +28,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->text('subject_name')->nullable();
             $table->text('title')->nullable();
+
             $table->string('url');
             $table->timestamp('date');
             $table->timestamps();
