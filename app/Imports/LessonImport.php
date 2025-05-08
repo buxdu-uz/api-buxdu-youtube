@@ -17,6 +17,7 @@ class LessonImport implements ToCollection,WithHeadingRow
 {
     public function collection(Collection $rows)
     {
+
         $userId = Auth::id();
         $now = now();
 
@@ -31,6 +32,10 @@ class LessonImport implements ToCollection,WithHeadingRow
                 } catch (\Exception $e) {
                     $youtubeDate = $now;
                 }
+            } elseif (strtotime($row['youtube_date']) !== false) {
+                $youtubeDate = date('Y-m-d H:i:s', strtotime($row['youtube_date']));
+            } else {
+                $youtubeDate = $now;
             }
 
             return [
