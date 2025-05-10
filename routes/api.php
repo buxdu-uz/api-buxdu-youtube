@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('faculties',[HemisController::class,'getAllFaculties']);
         Route::get('departments/{faculty_id}',[HemisController::class,'getAllDepartments']);
         Route::get('subjects',[HemisController::class,'getAllSubjects']);
+        Route::put('lessons/{lesson}/update',[LessonController::class,'teacherUpdate']);
     });
 });
 

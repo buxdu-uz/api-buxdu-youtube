@@ -11,6 +11,7 @@ use App\Domain\Lessons\Repositories\LessonRepository;
 use App\Domain\Lessons\Requests\LessonFilterRequest;
 use App\Domain\Lessons\Requests\StoreLessonRequest;
 use App\Domain\Lessons\Requests\UpdateLessonRequest;
+use App\Domain\Lessons\Requests\UpdateTeacherLessonRequest;
 use App\Domain\Lessons\Resources\LessonResource;
 use App\Filters\LessonFilter;
 use App\Http\Controllers\Controller;
@@ -185,6 +186,7 @@ class LessonController extends Controller
             ->get()
             ->groupBy(fn($lesson) => $this->getDepartmentKey($lesson))
             ->map($this->mapGroupedItems())
+            ->sortByDesc('count')
             ->values();
     }
 
@@ -196,6 +198,7 @@ class LessonController extends Controller
             ->get()
             ->groupBy(fn($lesson) => $this->getTeacherKey($lesson))
             ->map($this->mapGroupedItems())
+            ->sortByDesc('count')
             ->values();
     }
 
@@ -253,6 +256,22 @@ class LessonController extends Controller
             return $this->successResponse('Darslar muvaffaqiyatli import qilindi!');
         } catch (Exception $e) {
             return $this->errorResponse('Import paytida xato', $e->getMessage());
+        }
+    }
+
+
+    /**
+     * @param UpdateTeacherLessonRequest $request
+     * @param Lesson $lesson
+     * @return JsonResponse
+     */
+    public function teacherUpdate(UpdateTeacherLessonRequest $request, Lesson $lesson)
+    {
+        try {
+            $lesson->update($request->validated());
+            return $this->successResponse('Dars muvaffaqiyatli yangilandi!');
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage());
         }
     }
 }
