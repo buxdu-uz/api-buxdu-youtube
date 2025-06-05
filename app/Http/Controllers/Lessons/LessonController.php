@@ -169,18 +169,20 @@ class LessonController extends Controller
 //2 chi yo'l
     public function statistics(Request $request)
     {
+        $year = $request->year;
         $result = match (true) {
-            $request->filled('faculty_id') => $this->getFacultyStatistics($request->faculty_id),
-            $request->filled('department_id') => $this->getDepartmentStatistics($request->department_id),
-            default => $this->getGeneralStatistics()
+            $request->filled('faculty_id') => $this->getFacultyStatistics($request->faculty_id,$request->year),
+            $request->filled('department_id') => $this->getDepartmentStatistics($request->department_id,$request->year),
+            default => $this->getGeneralStatistics($year)
         };
 
         return response()->json(['data' => $result]);
     }
 
-    protected function getFacultyStatistics($facultyId)
+    protected function getFacultyStatistics($facultyId, $year)
     {
         return Lesson::query()
+            ->when($year, fn($query) => $query->whereYear('date', $year))
             ->whereHas('teacher.profile.department', fn($q) => $q->where('faculty_id', $facultyId))
             ->with('teacher.profile.department')
             ->get()
@@ -190,9 +192,10 @@ class LessonController extends Controller
             ->values();
     }
 
-    protected function getDepartmentStatistics($departmentId)
+    protected function getDepartmentStatistics($departmentId, $year)
     {
         return Lesson::query()
+            ->when($year, fn($query) => $query->whereYear('date', $year))
             ->whereHas('teacher.profile', fn($q) => $q->where('department_id', $departmentId))
             ->with('teacher')
             ->get()
@@ -202,9 +205,10 @@ class LessonController extends Controller
             ->values();
     }
 
-    protected function getGeneralStatistics()
+    protected function getGeneralStatistics($year)
     {
         return Lesson::with('teacher.profile.department.faculty')
+            ->when($year, fn($query) => $query->whereYear('date', $year))
             ->get()
             ->groupBy(fn($lesson) => $this->getFacultyKey($lesson))
             ->map($this->mapGroupedItems())
