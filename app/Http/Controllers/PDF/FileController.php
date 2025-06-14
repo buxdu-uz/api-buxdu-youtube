@@ -31,7 +31,7 @@ class FileController extends Controller
 
             $lessons[] = [
 //                'subject' => $lesson->subject->name,
-                'title' => $lesson->title,
+                'title' => $lesson->title ?? $lesson->subject_name,
                 'url' => $lesson->url,
                 'date' => $lesson->date,
                 'created_at' => $lesson->created_at,
