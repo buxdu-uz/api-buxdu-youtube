@@ -159,7 +159,7 @@
     @foreach($data as $lesson)
         <tr>
             <td class="topic-title">{{ $lesson['title'] }}</td>
-            <td><a href="https://youtu.be/ntO-9OXKSZw" class="reference-link">{{ $lesson['url'] }}</a></td>
+            <td><a href="{{ $lesson['url'] }}" class="reference-link">{{ $lesson['url'] }}</a></td>
             <td class="reference-date">{{ $lesson['date'] }}</td>
         </tr>
     @endforeach
