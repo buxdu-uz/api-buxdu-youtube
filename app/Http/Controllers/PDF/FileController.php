@@ -27,10 +27,10 @@ class FileController extends Controller
         foreach ($request->data as $data)
         {
             $lesson = Lesson::query()
+                ->where('teacher_id', $request->teacher_id)
                 ->find($data['lesson_id']);
 
             $lessons[] = [
-//                'subject' => $lesson->subject->name,
                 'title' => $lesson->title ?? $lesson->subject_name,
                 'url' => $lesson->url,
                 'date' => $lesson->date,
@@ -42,15 +42,15 @@ class FileController extends Controller
         $pdfPath = 'public/' . $filename;
         $pdfUrl = asset('storage/' . $filename);
 
-// Save QR code as PNG to storage
+        // Save QR code as PNG to storage
         $qrCodePng = QrCode::size(200)->generate($pdfUrl);
         $qrCodePath = 'public/documents/files/qrcodes/' . Str::uuid() . '.png';
         Storage::put($qrCodePath, $qrCodePng);
 
-// Generate base64 version for embedding into PDF
+        // Generate base64 version for embedding into PDF
         $qrCodeBase64 = 'data:image/png;base64,' . base64_encode($qrCodePng);
 
-// Create the PDF using Blade view
+        // Create the PDF using Blade view
         $pdf = PDF::loadView('pdf', [
             'data' => $lessons,
             'qrcode' => $qrCodeBase64,
@@ -58,10 +58,9 @@ class FileController extends Controller
             'pdfURL' => $pdfUrl
         ]);
 
-// Save PDF to storage
+        // Save PDF to storage
         Storage::put($pdfPath, $pdf->output());
-        // Stream it in browser
-//        return $pdf->stream($teacher->full_name.'.pdf');
+
         return $this->successResponse('Generated successfully.',$pdfUrl);
     }
 }
