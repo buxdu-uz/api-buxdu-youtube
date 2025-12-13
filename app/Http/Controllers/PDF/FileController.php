@@ -26,9 +26,15 @@ class FileController extends Controller
         $lessons = array();
         foreach ($request->data as $data)
         {
+            // Lessonni faqat berilgan teacher_id uchun olish
             $lesson = Lesson::query()
-                ->where('teacher_id', $request->teacher_id)
-                ->find($data['lesson_id']);
+                ->where('id', $data['lesson_id'])
+                ->where('teacher_id', $teacher->id) // shu yerda filter
+                ->first();
+
+            if (!$lesson) {
+                continue; // agar lesson topilmasa, o‘tib ketadi
+            }
 
             $lessons[] = [
                 'title' => $lesson->title ?? $lesson->subject_name,
