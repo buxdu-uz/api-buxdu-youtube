@@ -42,12 +42,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ma'lumotnoma</title>
     <style>
-        @font-face {
-            font-family: 'DejaVu Sans';
-            src: url("{{ public_path('fonts/DejaVuSans.ttf') }}") format('truetype');
-        }
-
-
         body {
             font-family: 'DejaVu Sans', sans-serif;
             max-width: 700px;
@@ -147,7 +141,7 @@
 </head>
 <body>
 <div class="header">
-    <div class="title">MA'LUMOTNOMA №.{{ random_int(1,6) }}</div>
+    <div class="title">MA'LUMOTNOMA No.{{ random_int(1,6) }}</div>
     <div class="date-line"><b>{{ date('Y-m-d H:i:s') }}</b></div>
 </div>
 <div class="main-text">
