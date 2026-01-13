@@ -43,7 +43,7 @@
     <title>Ma'lumotnoma</title>
     <style>
         body {
-            font-family: DejaVu Sans sans-serif;
+            font-family: sans-serif;
             max-width: 700px;
             margin: 0 auto;
             padding: 20px;
