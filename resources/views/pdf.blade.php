@@ -42,8 +42,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ma'lumotnoma</title>
     <style>
+        @font-face {
+            font-family: 'DejaVu Sans';
+            src: url("{{ public_path('fonts/DejaVuSans.ttf') }}") format('truetype');
+        }
+
+
         body {
-            font-family: sans-serif;
+            font-family: 'DejaVu Sans', sans-serif;
             max-width: 700px;
             margin: 0 auto;
             padding: 20px;
