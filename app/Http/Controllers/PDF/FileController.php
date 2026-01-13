@@ -44,7 +44,7 @@ class FileController extends Controller
             ];
         }
 
-        $filename = 'documents/files/pdf/' . Str::uuid().now() . '.pdf';
+        $filename = 'documents/files/pdf/' . date('Y-m-d-H:i:s') . '.pdf';
         $pdfPath = 'public/' . $filename;
         $pdfUrl = asset('storage/' . $filename);
 

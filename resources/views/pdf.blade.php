@@ -141,11 +141,11 @@
 </head>
 <body>
 <div class="header">
-    <div class="title">MA'LUMOTNOMA No._______</div>
+    <div class="title">MA'LUMOTNOMA No.{{ \Illuminate\Support\Str::random(6) }}</div>
     <div class="date-line"><b>{{ date('Y-m-d H:i:s') }}</b></div>
 </div>
 <div class="main-text">
-    Buxoro Davlat Universiteti <b>{{ $teacher->profile->department->faculty->name }}</b> fakulteti <b>{{ $teacher->profile->department->name }}</b> dotsenti <b>{{ $teacher->full_name }}</b> tomonidan o'quv yuklamasida nazarda tutilganidan tashqari
+    Buxoro Davlat Universiteti <b>{{ $teacher->profile->department?->faculty?->name }}</b> fakulteti <b>{{ $teacher->profile->department?->name }}</b> dotsenti <b>{{ $teacher->full_name }}</b> tomonidan o'quv yuklamasida nazarda tutilganidan tashqari
     mustaqil ishlab chiqilgan hamda youtube platformasida quyidagi darslar
     joylashtirilgan.
 </div>
