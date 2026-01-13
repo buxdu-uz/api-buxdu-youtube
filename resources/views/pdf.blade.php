@@ -44,7 +44,7 @@
     <style>
         @font-face {
             font-family: 'DejaVu Sans';
-            src: url("{{ public_path('fonts/DejaVuSans.ttf') }}") format('truetype');
+            src: url("{{ asset('fonts/DejaVuSans.ttf') }}") format('truetype');
         }
 
 
