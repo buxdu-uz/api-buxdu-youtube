@@ -141,7 +141,7 @@
 </head>
 <body>
 <div class="header">
-    <div class="title">MA'LUMOTNOMA No.{{ random_int(1,6) }}</div>
+    <div class="title">MA'LUMOTNOMA №.{{ random_int(1,6) }}</div>
     <div class="date-line"><b>{{ date('Y-m-d H:i:s') }}</b></div>
 </div>
 <div class="main-text">
